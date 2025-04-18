@@ -1,2 +1,56 @@
 
-  
+ body{
+    padding: 1 rem;
+    margin: 0;
+ } 
+
+ #category-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5 rem;
+    justify-content: center;
+    margin: 1rem 0;
+ }
+
+ .category-button{
+    background-color: coral;
+    color:white;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+ }
+
+.category-button:hover{
+    background-color: whitesmoke;
+    color:coral;
+}
+
+#book-list{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr; /*fr medida de unidad que trabaja con el grid*/
+}
+
+.book-card{
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.book-card img{
+max-width: 100%;
+height: auto;
+border-radius: 5px;
+}
+
+.hidden {
+    display:none;
+}
+
+#error{
+    color:red;
+    text-align: center;
+    margin-top: 2rem;
+}
