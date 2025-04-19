@@ -1,2 +1,92 @@
 
-  
+ body{
+    padding: 1 rem;
+    margin: 0;
+ } 
+
+ #category-list{
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    
+ }
+
+ .category-button{
+    padding: 0.5rem 1rem;
+    background-color: coral;
+    color:white;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+ }
+
+.category-button:hover{
+    background-color: whitesmoke;
+    color:coral;
+}
+
+#book-list{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr; /*fr medida de unidad que trabaja con el grid*/
+}
+
+.book-card{
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.book-card img{
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.hidden {
+    display:none !important;
+}
+
+#error{
+    color:red;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/*Animacion para la craga de llamadas*/
+
+.loader{
+    position:fixed;
+    top:50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    border:5px solid blue;
+    border-top: 5px solid whitesmoke;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+/*navBar*/
+#navBar{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position:sticky;
+    top: 0;
+    background: blueviolet;
+    padding: 1rem;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    gap: 1rem;
+}
+
+@keyframes spin{
+    0% {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+}
