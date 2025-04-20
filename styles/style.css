@@ -1,92 +1,107 @@
+:root{
+    --fondo:#F7F7F7;
+}
 
- body{
-    padding: 1 rem;
+body{
+    padding: 1rem;
     margin: 0;
- } 
-
- #category-list{
-    margin: 1rem 0;
+}
+#category-list{
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
-    
- }
-
- .category-button{
-    padding: 0.5rem 1rem;
-    background-color: coral;
-    color:white;
-    border: none;
-    border-radius: 5px;
-    cursor:pointer;
- }
-
-.category-button:hover{
-    background-color: whitesmoke;
-    color:coral;
+    margin: 3rem 0; /*n*/
 }
-
+.category-button{
+    background-color: coral;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.category-button:hover{
+    background-color: white;
+    color: coral;
+}
 #book-list{
     display: grid;
     gap: 1rem;
-    grid-template-columns: 1fr; /*fr medida de unidad que trabaja con el grid*/
+    grid-template-columns: 1fr;
 }
-
 .book-card{
     background-color: white;
     padding: 1rem;
     border-radius: 10px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
-
-.book-card img{
+.book-card img {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
 }
-
 .hidden {
-    display:none !important;
+    display: none !important;
+    background-color: blueviolet;
 }
-
 #error{
-    color:red;
+    color: crimson;
     text-align: center;
     margin-top: 2rem;
 }
-
-/*Animacion para la craga de llamadas*/
-
+/*animación de carga*/
 .loader{
-    position:fixed;
-    top:50%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     width: 50px;
     height: 50px;
-    border:5px solid blue;
-    border-top: 5px solid whitesmoke;
+    border: 5px solid blue;
+    border-top: 5px solid cornflowerblue;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     transform: translate(-50%, -50%);
 }
-
-/*navBar*/
-#navBar{
+@keyframes spin {
+    0% {transform:rotate(0deg);}
+    100% {transform:rotate(360deg);}
+}
+/*navbar*/
+#navbar{
+    position: fixed;/*n*/
+    top: 0;
+    width: 100%; /*n*/
+    background: cornflowerblue;
+    padding: 1rem;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    position:sticky;
-    top: 0;
-    background: blueviolet;
-    padding: 1rem;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
-    z-index: 1000;
     gap: 1rem;
 }
 
-@keyframes spin{
-    0% {transform:rotate(0deg);}
-    100% {transform:rotate(360deg);}
+/*Pagination*/
+.pagination{
+    background-color: cornflowerblue;
+    display:flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.pagination-button{
+    background-color: crimson;
+    color:white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination-button.active{
+    box-shadow: 0.5rem rgba(220, 20, 60, 0.5);
 }
