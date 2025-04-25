@@ -1,5 +1,3 @@
-# mi_bliblioteca_dashboard
-
 # 📚 **Proyecto Web de Biblioteca**
 
 ## **🌟 Descripción**
