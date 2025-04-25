@@ -8,16 +8,12 @@ let currentPage = 1;
 const booksPPage = 5;
 
 document.addEventListener('DOMContentLoaded', async()=>{
-    showLoader(true);
-    //antes
-    //const categories = await getCategories();
-    //showCategories(categories);
-    //despues
+    showLoader(true); 
     allCat = await getCategories();
     showCategories(allCat);
     showLoader(false);
 });
-function showLoader(show){
+function showLoader(show){ //muestra spinner
     const loader = document.getElementById('loader');
     if(show){
         loader.classList.remove('hidden');
@@ -25,7 +21,71 @@ function showLoader(show){
         loader.classList.add('hidden');
     }
 }
-function renderNavbar(view){
+async function getCategories(){ //Llamada a las categorías de libros
+    try{
+        const response = await fetch(`${BASE_URL}/lists/names.json?api-key=${API_KEY}`);
+        if(!response.ok) throw new Error('No se cargaron las categorías');
+        const data = await response.json();
+        return data.results;
+    } catch(error){
+        showError(error.message);
+    }
+}
+async function getBooksByCategory(category){ //Llamada a los libros por categorías
+    try
+    {
+        const response = await fetch(`${BASE_URL}/lists/current/${category}.json?api-key=${API_KEY}`);
+        if(!response.ok) throw new Error('No se cargaron los libros');
+        const data = await response.json();
+        return data.results.books;
+    } catch(error){
+        showError(error.message);
+    }
+}
+function showCategories(categories){ //RENDERIZA AL HACER CLICK 
+    const container = document.getElementById('category-list');
+    container.innerHTML = '';
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.classList.add('category-button');
+        //btn.textContent = cat.display_name;
+        btn.innerHTML = `
+            <strong>${cat.display_name}</strong>
+            <br>Fecha del libro más antiguo: ${cat.oldest_published_date || 'Sin datos'}
+            <br>Fecha del último libro agregado: ${cat.newest_published_date || 'Sin datos'}
+            <br>Frecuencia de actualización: ${cat.updated || 'Sin datos'}
+        `; 
+        btn.addEventListener('click', () => handleCategoryClick(cat.list_name_encoded));
+        container.appendChild(btn);
+    });
+    renderNavbar('categories');
+    attachCatFilters();
+}
+function showBooks(books){ //MUESTRA LOS LIBROS DE LA CATEGORÍA
+    const containerBooks = document.getElementById('book-list');
+    containerBooks.innerHTML = '';
+    allBooks = books;
+    currentPage=1;
+    
+
+    books.forEach((book) =>{
+        const card = document.createElement('article');
+        card.classList.add('book-card');
+        card.innerHTML = `
+        <img src="${book.book_image}" alt="PORTADA DE ${book.title}" title="PORTADA DE ${book.title}">
+        <h3>${book.title} (#${book.rank})</h3>
+        <p><strong>Autor:</strong> ${book.author}</p>
+        <p><strong>Semanas en la lista:</strong> ${book.weeks_on_list}</p>
+        <p><strong>Descripción:</strong> ${book.description || 'Sin datos'}</p>
+        <p><a href="${book.amazon_product_url}" target="_blank">Comprar</a></p>
+        `;
+        containerBooks.appendChild(card);
+    });
+    
+    renderNavbar('books');
+};
+
+function renderNavbar(view){ //RENDERIZA ver lin31
     const navbar = document.getElementById('navbar');
     navbar.innerHTML = '';
     if (view == 'categories')
@@ -80,7 +140,7 @@ function renderNavbar(view){
         attachBookFilters(); //nuevo
     }
 }
-function applyCategoryFilters(){//nuevo
+function applyCategoryFilters(){//FILTRA Y ORDENA CAT
     const freq = document.getElementById('filter-freq').value.toLowerCase();
     const search = document.getElementById('filter-cat').value.toLowerCase();
     const sort = document.getElementById('sort-cat').value;
@@ -125,7 +185,7 @@ function applyCategoryFilters(){//nuevo
     // Mostrar categorías filtradas y ordenadas
     showCategories(filtered);
 }
-function attachCatFilters(){ //nuevo
+function attachCatFilters(){ //ORDENA POR BUSQUEDA CUANDO SE EJECUTA ALGUNA FUNCION DE APPLY  
     const freqSelect = document.getElementById('filter-freq');
     const searchInput = document.getElementById('filter-cat');
     const sortSelect = document.getElementById('sort-cat');
@@ -135,7 +195,7 @@ function attachCatFilters(){ //nuevo
     sortSelect.addEventListener('change', applyCategoryFilters);
     reset.addEventListener('click', applyCategoryFilters);
 }
-function applyBookFilters(){ //nuevo
+function applyBookFilters(){ //FILTRA Y ORDENA LIBROS
     const search = document.getElementById('book-search').value.toLowerCase();
     const sort = document.getElementById('book-sort').value;
     const reset = document.getElementById('reset');
@@ -169,7 +229,7 @@ function applyBookFilters(){ //nuevo
     };
     showBooks(filteredBooks); // Mostrar libros después de aplicar los filtros
 }
-function attachBookFilters(){
+function attachBookFilters(){ //ORDENA POR BUSQUEDA DE APPLYBOOK
     const searchInput = document.getElementById('book-search');
     const sortSelect = document.getElementById('book-sort');
     const reset =document.getElementById('reset');
@@ -182,54 +242,8 @@ function showError(message){
     error.textContent = message;
     error.classList.remove('hidden');
 }
-async function getCategories(){ //Llamada a las categorías de libros
-    try{
-        const response = await fetch(`${BASE_URL}/lists/names.json?api-key=${API_KEY}`);
-        if(!response.ok) throw new Error('No se cargaron las categorías');
-        const data = await response.json();
-        return data.results;
-    } catch(error){
-        showError(error.message);
-    }
-}
-async function getBooksByCategory(category){ //Llamada a los libros por categorías
-    try
-    {
-        const response = await fetch(`${BASE_URL}/lists/current/${category}.json?api-key=${API_KEY}`);
-        if(!response.ok) throw new Error('No se cargaron los libros');
-        const data = await response.json();
-        return data.results.books;
-    } catch(error){
-        showError(error.message);
-    }
-}
-//Funciones del DOM
-function showBooks(books){
-    const containerBooks = document.getElementById('book-list');
-    containerBooks.innerHTML = '';
-    allBooks = books;
-    currentPage=1;
-    
 
-    books.forEach((book, index) =>{
-        const card = document.createElement('article');
-        card.classList.add('book-card');
-        card.innerHTML = `
-        <img src="${book.book_image}" alt="PORTADA DE ${book.title}" title="PORTADA DE ${book.title}">
-        <h3>${book.title} (#${book.rank})</h3>
-        <p><strong>Autor:</strong> ${book.author}</p>
-        <p><strong>Semanas en la lista:</strong> ${book.weeks_on_list}</p>
-        <p><strong>Descripción:</strong> ${book.description || 'Sin datos'}</p>
-        <p><a href="${book.amazon_product_url}" target="_blank">Comprar</a></p>
-        `;
-        containerBooks.appendChild(card);
-    });
-    
-    renderNavbar('books');
-};
-
-
-async function handleCategoryClick(categoryName){
+async function handleCategoryClick(categoryName){ //CAMBIA LA VISTA PARA LOS LIBROS
     showLoader(true);
     const containerCat = document.getElementById('category-list');
     containerCat.classList.add('hidden');
@@ -244,27 +258,10 @@ async function handleCategoryClick(categoryName){
     //containerBack.appendChild(backBtn);
     showLoader(false);
 }
-function showCategories(categories){
-    const container = document.getElementById('category-list');
-    container.innerHTML = '';
-    categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.classList.add('category-button');
-        //btn.textContent = cat.display_name;
-        btn.innerHTML = `
-            <strong>${cat.display_name}</strong>
-            <br>Fecha del libro más antiguo: ${cat.oldest_published_date || 'Sin datos'}
-            <br>Fecha del último libro agregado: ${cat.newest_published_date || 'Sin datos'}
-            <br>Frecuencia de actualización: ${cat.updated || 'Sin datos'}
-        `; 
-        btn.addEventListener('click', () => handleCategoryClick(cat.list_name_encoded));
-        container.appendChild(btn);
-    });
-    renderNavbar('categories');
-    attachCatFilters();
-}
+
 //Funciones de la compaginación.
-function displayBooksPage(page){
+/*
+function displayBooksPage(page){ //RENDERIZA LOS LIBROS CORRESPONDIENTES A LA PAGINA ACTUAL
     const bookList= document.getElementById('book-list');
     const start = (page - 1) * booksPPage;
     const end = start + booksPPage;
@@ -280,7 +277,7 @@ function displayBooksPage(page){
     renderPButton();
 };
 
-function renderPButton(){
+function renderPButton(){ //CREA BOTONES DE PAGINACION
     const pagination= document.getElementById('pagination');
     pagination.innerHTML='';
 
@@ -304,4 +301,4 @@ function renderPButton(){
         pagination.appendChild(btn);
     }
 }
-
+*/
