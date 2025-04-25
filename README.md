@@ -1,20 +1,4 @@
 
-# 📚 **Proyecto Web de Biblioteca**
-
-## **🌟 Descripción**
-
-Bienvenido al **Proyecto Web de Biblioteca**, una plataforma interactiva que permite a los usuarios explorar listas de libros, consultar detalles y realizar filtros personalizados. El contenido se obtiene desde la **API de libros del New York Times**, lo que garantiza datos actualizados y reales.
-
-Esta aplicación ha sido construida **sin frameworks ni librerías externas**, usando solo **JavaScript Vanilla**, **HTML5** y **CSS3**, con enfoque en **diseño responsive**, **mobile-first** y una **estructura modularizada**.
-
----
-
-## **🔗 API Utilizada: The New York Times Books API**
-
-Este proyecto utiliza la [Books API de The New York Times](https://developer.nytimes.com/docs/books-product/1/overview), que proporciona acceso a las listas de libros más vendidos, actualizadas semanalmente.
-
-=======
-
 # 📚 **Proyecto Web de Biblioteca **
 
 ## **🌟 Descripción**
