@@ -17,10 +17,6 @@ Bienvenido al **Proyecto Web de Biblioteca**, una plataforma interactiva que per
 
 ### **Ejemplo de Endpoint utilizado:**
 
-```http
-GET https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=YOUR_API_KEY
-=======
----
 
 ### 🔍 **Vista Detallada de Libros**
 
